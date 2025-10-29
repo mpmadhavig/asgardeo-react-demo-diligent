@@ -2,12 +2,16 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background: linear-gradient(135deg, #fefefe, #fafafa);
+  min-height: 100vh;
 }
 
 .token-info-container h1 {
   text-align: center;
-  color: #333;
+  color: #000000;
   margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 2.5em;
 }
 
 .cards-container {
@@ -16,21 +20,54 @@
   flex-wrap: wrap;
 }
 
+/* Give prominence to decoded token card */
+.cards-container .card:nth-child(2) {
+  order: -1;
+  flex: 2;
+  min-width: 60%;
+  border: 2px solid #f47421;
+  box-shadow: 0 8px 32px rgba(244, 116, 33, 0.2);
+  background: linear-gradient(135deg, #ffffff, #fefefe);
+}
+
+.cards-container .card:nth-child(2) h2 {
+  color: #f47421;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cards-container .card:nth-child(1) {
+  flex: 1;
+  min-width: 35%;
+}
+
 .card {
   flex: 1;
   min-width: 300px;
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border: 1px solid rgba(244, 116, 33, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border-color: rgba(244, 116, 33, 0.4);
+  background: #ffffff;
 }
 
 .card h2 {
-  color: #495057;
+  color: #000000;
   margin-bottom: 15px;
-  font-size: 18px;
-  border-bottom: 2px solid #007bff;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #f47421;
   padding-bottom: 8px;
 }
 
@@ -40,72 +77,87 @@
 }
 
 .json-display {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 4px;
+  background: #fcfcfc;
+  border: 1px solid rgba(244, 116, 33, 0.15);
+  border-radius: 8px;
   padding: 16px;
   margin: 0;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 12px;
   line-height: 1.4;
-  color: #333333;
+  color: #000000;
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-all;
   text-align: left;
+  backdrop-filter: blur(5px);
 }
 
-/* JSON syntax highlighting - Light mode colors */
+/* JSON syntax highlighting - Multi-color theme */
 .json-string {
-  color: #d73a49;
+  color: #e74c3c;
+  font-weight: 500;
 }
 
 .json-number {
-  color: #005cc5;
+  color: #3498db;
+  font-weight: 600;
 }
 
 .json-boolean {
-  color: #6f42c1;
+  color: #9b59b6;
+  font-weight: 600;
 }
 
 .json-null {
-  color: #6f42c1;
+  color: #95a5a6;
+  font-weight: 600;
 }
 
 .json-key {
-  color: #22863a;
+  color: #2ecc71;
+  font-weight: 700;
 }
 
 .json-punctuation {
-  color: #333333;
+  color: #34495e;
 }
 
 .data-row {
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;
-  padding: 8px;
-  background: white;
-  border-radius: 4px;
-  border-left: 3px solid #007bff;
+  padding: 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  border-left: 3px solid rgba(244, 116, 33, 0.6);
+  backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+.data-row:hover {
+  background: #ffffff;
+  border-left-color: rgba(244, 116, 33, 0.8);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .data-key {
-  font-weight: bold;
-  color: #495057;
+  font-weight: 600;
+  color: #000000;
   font-size: 14px;
   margin-bottom: 4px;
 }
 
 .data-value {
-  color: #6c757d;
+  color: #000000;
   font-family: 'Courier New', monospace;
   font-size: 12px;
   word-break: break-all;
-  background: #f1f3f4;
-  padding: 4px 8px;
-  border-radius: 3px;
-  border: 1px solid #e9ecef;
+  background: #f9f9f9;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(244, 116, 33, 0.15);
 }
 
 /* Responsive design */
@@ -125,15 +177,16 @@
 }
 
 .data-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
+  background: #f5f5f5;
+  border-radius: 4px;
 }
 
 .data-content::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
+  background: rgba(244, 116, 33, 0.4);
+  border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
 .data-content::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: rgba(244, 116, 33, 0.6);
 }

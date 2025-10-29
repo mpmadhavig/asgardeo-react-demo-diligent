@@ -94,14 +94,7 @@ function App() {
             
                   
 
-          <SignedIn>
-            <UserDropdown menuItems={[
-              {
-                label: 'My Account',
-                onClick: () => window.open(`${import.meta.env.VITE_ASGARDEO_MYACCOUNT_URL}/${decodedIdToken?.org_id}`, '_blank')
-              }
-            ]} />
-          </SignedIn>
+
           <SignedOut>
             <div className="container">
               <div className="header-title">
@@ -121,46 +114,49 @@ function App() {
                         Asgardeo React SDK
                     </a>.
                 </h4>
-                <div className="input-row">
-                  <div className="input-field">
-                    <label htmlFor="name">
-                      Username (Optional):
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Enter username (optional)..."
-                    />
-                  </div>
-                  <div className="input-field">
-                    <label htmlFor="organization">
-                      Organization (Optional):
-                    </label>
-                    <select
-                      id="organization"
-                      value={selectedOrg}
-                      onChange={(e) => setSelectedOrg(e.target.value)}
-                      data-placeholder={selectedOrg === "" ? "true" : "false"}
+                <div className="form-card">
+                  <div className="form-container">
+                    <div className="form-field">
+                      <label htmlFor="username" className="form-label">
+                        Username
+                      </label>
+                      <input
+                        id="username"
+                        type="text"
+                        placeholder="Enter username..."
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className="form-input"
+                      />
+                    </div>
+
+                    <div className="form-field">
+                      <label htmlFor="organization" className="form-label">
+                        Organization
+                      </label>
+                      <select
+                        id="organization"
+                        value={selectedOrg}
+                        onChange={(e) => setSelectedOrg(e.target.value)}
+                        data-placeholder={selectedOrg === "" ? "true" : "false"}
+                        className="form-select"
+                      >
+                        <option value="">Select an organization...</option>
+                        {organizations.map((org) => (
+                          <option key={org.id} value={org.id}>
+                            {org.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <button
+                      onClick={handleLogin}
+                      className="primary-login-button"
                     >
-                      <option value="">Choose organization (optional)</option>
-                      {organizations.map((org) => (
-                        <option key={org.id} value={org.id}>
-                          {org.name}
-                        </option>
-                      ))}
-                    </select>
+                      Login
+                    </button>
                   </div>
-                </div>
-                <div className="single-button-container">
-                  <button
-                    type="button"
-                    onClick={handleLogin}
-                    className="primary-button"
-                  >
-                    Sign In
-                  </button>
                 </div>
               </div>
             </div>
@@ -168,13 +164,14 @@ function App() {
           </SignedOut>
 
           <SignedIn>
-          <User>
-            {(user) => (
-              <div>
+          <div className="user-header-container">
+            <User>
+              {(user) => (
                 <h3>👋 Welcome back, {user?.name?.givenName && user?.name?.familyName ? `${user?.name?.givenName} ${user?.name?.familyName}` : user.userName || user.username || user.sub}</h3>
-              </div>
-            )}
-          </User>
+              )}
+            </User>
+            <UserDropdown />
+          </div>
           <TokenInfo />
         </SignedIn>
       </main>
