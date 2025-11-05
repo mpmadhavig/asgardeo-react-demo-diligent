@@ -604,11 +604,12 @@ svg[class*="arrow"] {
   color: #ffffff !important;
 }
 
-/* User header container - one line layout */
+/* User header container - one line layout with welcome in center */
 .user-header-container {
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
   align-items: center !important;
-  justify-content: space-between !important;
+  gap: 1rem !important;
   background: rgba(255, 255, 255, 0.9) !important;
   border-radius: 12px !important;
   padding: 16px 24px !important;
@@ -617,12 +618,103 @@ svg[class*="arrow"] {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
 }
 
+/* Left controls - org and switch button */
+.left-controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  justify-self: start !important;
+}
+
+/* User component (welcome message) in the middle */
+.user-header-container > div:nth-child(2) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  grid-column: 2 !important;
+}
+
 /* Welcome message styling */
-div h3 {
+.user-header-container h3 {
   color: #000000 !important;
   font-weight: 600 !important;
   margin: 0 !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  font-size: 1.1rem !important;
+}
+
+/* User dropdown on the right */
+.user-header-container > div:last-child {
+  justify-self: end !important;
+  grid-column: 3 !important;
+}
+
+/* Controls row - contains left and right controls */
+.controls-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
   flex: 1 !important;
+  gap: 1rem !important;
+}
+
+/* Left controls - org and login button */
+.left-controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  flex-shrink: 0 !important;
+}
+
+/* Form field within left controls */
+.left-controls .form-field {
+  min-width: 200px !important;
+  margin: 0 !important;
+}
+
+/* Switch organization icon button */
+.switch-org-button {
+  width: 3rem !important;
+  height: 3rem !important;
+  padding: 0 !important;
+  font-size: 1.5rem !important;
+  background: transparent !important;
+  color: #f97316 !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 0.5rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.switch-org-button:hover {
+  background: rgba(249, 115, 22, 0.1) !important;
+  color: #ea580c !important;
+  transform: scale(1.1) !important;
+}
+
+.switch-org-button:active {
+  transform: scale(0.95) !important;
+  background: rgba(249, 115, 22, 0.2) !important;
+}
+
+.switch-org-button:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Right side controls grouped together - second line, aligned left */
+.right-controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  flex-shrink: 0 !important;
+  justify-content: flex-start !important;
 }
 
 /* Signed-in container */

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
-import { SignedIn, SignedOut, SignInButton, useAsgardeo, User, UserDropdown } from '@asgardeo/react'
+import { SignedIn, SignedOut, useAsgardeo, User, UserDropdown } from '@asgardeo/react'
 import TokenInfo from './TokenInfo'
 import REACT_LOGO from "../src/images/react-logo.png";
 import FOOTER_LOGOS from "../src/images/footer.png";
 import './App.css'
 
 function App() {
+
   const { signInSilently, getDecodedIdToken, isSignedIn, signIn } = useAsgardeo();
-  
   const [decodedIdToken, setDecodedIdToken] = useState(null);
   const [username, setUsername] = useState('');
   const [selectedOrg, setSelectedOrg] = useState('');
@@ -38,6 +38,8 @@ function App() {
         params.fidp = "OrganizationSSO";
         params.orgId = selectedOrg;
       }
+
+      console.log(params);
       
       await signIn(params);
     } catch (error) {
@@ -45,7 +47,29 @@ function App() {
       alert('Sign-in failed. Please try again.');
     }
   };
-  
+
+  const handleReLogin = async () => {
+    try {
+      // Clear the existing session data instance to force re-authentication.
+      Object.keys(window.sessionStorage).forEach((key) => {
+        if (key.startsWith('session_data-instance_0-')) {
+          window.sessionStorage.removeItem(key);
+        }
+      });
+
+      const params = {};
+      if (selectedOrg) {
+        params.fidp = "OrganizationSSO";
+        params.orgId = selectedOrg;
+        params.prompt = "login";
+      }
+      await signIn(params);
+    } catch (error) {
+      console.error('Sign-in failed:', error);
+      alert('Sign-in failed. Please try again.');
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -91,10 +115,6 @@ function App() {
   return (
     <>
       <main>
-            
-                  
-
-
           <SignedOut>
             <div className="container">
               <div className="header-title">
@@ -116,14 +136,16 @@ function App() {
                 </h4>
                 <div className="form-card">
                   <div className="form-container">
+                    
+                    
                     <div className="form-field">
-                      <label htmlFor="username" className="form-label">
+                      {/* <label htmlFor="username" className="form-label">
                         Username
-                      </label>
+                      </label> */}
                       <input
                         id="username"
                         type="text"
-                        placeholder="Enter username..."
+                        placeholder="Enter username (optional)"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         className="form-input"
@@ -131,9 +153,9 @@ function App() {
                     </div>
 
                     <div className="form-field">
-                      <label htmlFor="organization" className="form-label">
+                      {/* <label htmlFor="organization" className="form-label">
                         Organization
-                      </label>
+                      </label> */}
                       <select
                         id="organization"
                         value={selectedOrg}
@@ -141,7 +163,7 @@ function App() {
                         data-placeholder={selectedOrg === "" ? "true" : "false"}
                         className="form-select"
                       >
-                        <option value="">Select an organization...</option>
+                        <option value="">Select organization (optional)</option>
                         {organizations.map((org) => (
                           <option key={org.id} value={org.id}>
                             {org.name}
@@ -165,11 +187,39 @@ function App() {
 
           <SignedIn>
           <div className="user-header-container">
+            <div className="left-controls">
+              <div className="form-field">
+                <select
+                  id="organization"
+                  value={selectedOrg}
+                  onChange={(e) => setSelectedOrg(e.target.value)}
+                  data-placeholder={selectedOrg === "" ? "true" : "false"}
+                  className="form-select"
+                >
+                  <option value="">Switching Organization</option>
+                  {organizations.map((org) => (
+                    <option key={org.id} value={org.id}>
+                      {org.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={handleReLogin}
+                className="switch-org-button"
+                title="Switch to selected organization"
+              >
+                🔄
+              </button>
+            </div>
+
             <User>
               {(user) => (
                 <h3>👋 Welcome back, {user?.name?.givenName && user?.name?.familyName ? `${user?.name?.givenName} ${user?.name?.familyName}` : user.userName || user.username || user.sub}</h3>
               )}
             </User>
+
             <UserDropdown />
           </div>
           <TokenInfo />
